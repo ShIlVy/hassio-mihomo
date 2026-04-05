@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
+set -e
 
-# Check if custom config exists in Home Assistant config directory
-CONFIG_FILE="/config/mihomo.yaml"
-if [ ! -f "$CONFIG_FILE" ]; then
-    echo "No custom config found at $CONFIG_FILE, using default config"
+# Пробуем оба варианта пути на случай специфики монтирования
+if [ -f "/config/mihomo.yaml" ]; then
+    CONFIG_FILE="/config/mihomo.yaml"
+elif [ -f "/homeassistant/mihomo.yaml" ]; then
+    CONFIG_FILE="/homeassistant/mihomo.yaml"
+else
+    echo "Custom config NOT FOUND. Using default."
     CONFIG_FILE="/app/mihomo-default.yaml"
 fi
 
 echo "Starting Mihomo with config: $CONFIG_FILE"
 
-# Start Mihomo with the selected config
-exec /app/mihomo \
-    --config "$CONFIG_FILE" \
-    --tproxy-port 9898
+# Запускаем БЕЗ лишних флагов, которые вызывают ошибку
+exec /app/mihomo -d /app -f "$CONFIG_FILE"
