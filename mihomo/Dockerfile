@@ -15,7 +15,7 @@ WORKDIR /app
 # Копируем бинарник и скрипты из вашего репозитория.
 # ВНИМАНИЕ: Если файл mihomo-amd64 лежит в КОРНЕ репозитория, уберите "mihomo/" в начале пути ниже.
 # Если он лежит внутри папки mihomo, оставьте как есть.
-COPY mihomo/mihomo-amd64 /app/mihomo
+COPY mihomo-amd64 /app/mihomo
 COPY start-mihomo.sh /app/start-mihomo.sh
 COPY mihomo-default.yaml /app/mihomo-default.yaml
 
