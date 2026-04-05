@@ -1,19 +1,26 @@
-FROM alpine:latest
+# Используем Debian Bullseye (slim версия для экономии места)
+# В нем есть все необходимые библиотеки glibc для вашего процессора N3350
+FROM debian:bullseye-slim
 
-# Install required packages
-RUN apk add --no-cache ca-certificates bash
+# Установка базовых системных пакетов
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    bash \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create app directory
+# Создаем рабочую директорию приложения
 WORKDIR /app
 
-# Copy architecture-specific binary
-ARG BUILD_ARCH
-COPY mihomo-${BUILD_ARCH} /app/mihomo
+# Копируем бинарник и скрипты из вашего репозитория.
+# ВНИМАНИЕ: Если файл mihomo-amd64 лежит в КОРНЕ репозитория, уберите "mihomo/" в начале пути ниже.
+# Если он лежит внутри папки mihomo, оставьте как есть.
+COPY mihomo/mihomo-amd64 /app/mihomo
 COPY start-mihomo.sh /app/start-mihomo.sh
 COPY mihomo-default.yaml /app/mihomo-default.yaml
 
-# Make scripts executable
+# Даем права на исполнение бинарнику и скрипту запуска
 RUN chmod +x /app/mihomo /app/start-mihomo.sh
 
-# Run the startup script
+# Эта команда запустит ваш исправленный скрипт, который мы обсуждали ранее
 CMD ["/app/start-mihomo.sh"]
