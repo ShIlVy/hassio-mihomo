@@ -3,7 +3,7 @@ name: Mihomo Proxy
 version: "1.0.0"
 slug: mihomo
 description: Mihomo (Clash.Meta) - A rule-based transparent proxy with advanced routing capabilities
-url: "https://github.com/kapuic/hassio-mihomo/tree/main/mihomo"
+url: "https://github.com/ShIlVy/hassio-mihomo/tree/main/mihomo"
 arch:
   - aarch64
   - amd64
