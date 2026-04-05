@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 # Install required packages
-RUN apk add --no-cache ca-certificates bash
+RUN apk add --no-cache ca-certificates bash libc6-compat gcompat
 
 # Create app directory
 WORKDIR /app
