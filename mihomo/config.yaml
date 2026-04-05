@@ -30,5 +30,7 @@ ports_description:
   53/udp: "DNS Server"
 options:
   config_file: "/config/mihomo.yaml"
+map:
+  - config:rw  
 schema:
   config_file: "str?"
