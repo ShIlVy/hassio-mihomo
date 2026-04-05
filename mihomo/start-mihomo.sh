@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Check if custom config exists in Home Assistant config directory
-CONFIG_FILE="/config/mihomo.yaml"
+CONFIG_FILE="/homeassistant/mihomo.yaml"
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "No custom config found at $CONFIG_FILE, using default config"
     CONFIG_FILE="/app/mihomo-default.yaml"
