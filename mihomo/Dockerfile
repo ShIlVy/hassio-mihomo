@@ -1,20 +1,18 @@
 FROM alpine:latest
 
-# Установка зависимостей
-RUN apk add --no-cache ca-certificates bash libc6-compat gcompat wget
+# Устанавливаем зависимости и создаем ССЫЛКУ на загрузчик
+RUN apk add --no-cache ca-certificates bash libc6-compat gcompat \
+    && mkdir -p /lib64 \
+    && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
 
-# Создаем рабочую папку
 WORKDIR /app
 
-# Скачиваем ОФИЦИАЛЬНЫЙ бинарник напрямую (версия 1.18.3 для amd64)
-RUN wget https://github.com \
-    && gunzip mihomo-linux-amd64-v1.18.3.gz \
-    && mv mihomo-linux-amd64-v1.18.3 mihomo \
-    && chmod +x mihomo
-
-# Копируем скрипт запуска и дефолтный конфиг из вашего репозитория
+# Копируем файл из вашего репозитория (тот, что 44 МБ)
+COPY mihomo/mihomo-amd64 /app/mihomo
 COPY start-mihomo.sh /app/start-mihomo.sh
 COPY mihomo-default.yaml /app/mihomo-default.yaml
-RUN chmod +x /app/start-mihomo.sh
+
+# Даем права на запуск
+RUN chmod +x /app/mihomo /app/start-mihomo.sh
 
 CMD ["/app/start-mihomo.sh"]
