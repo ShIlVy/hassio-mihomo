@@ -1,10 +1,13 @@
 FROM alpine:latest
 
 # Install required packages
-RUN apk add --no-cache ca-certificates bash libc6-compat gcompat
+RUN apk add --no-cache ca-certificates bash libc6-compat gcompat unzip wget
 
-# Create app directory
-WORKDIR /app
+# Скачиваем и распаковываем панель управления
+RUN mkdir -p /app/ui && \
+    wget -O yacd.zip https://github.com/haishanh/yacd/releases/latest/download/yacd.zip && \
+    unzip yacd.zip -d /app/ui && \
+    rm yacd.zip
 
 # Copy architecture-specific binary
 ARG BUILD_ARCH
