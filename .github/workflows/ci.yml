@@ -42,7 +42,7 @@ jobs:
       - name: Fetch Mihomo source
         run: |
           rm -rf upstream-mihomo
-          git clone --depth 1 https://github.com/MetaCubeX/mihomo.git upstream-mihomo
+          git clone -b Meta --single-branch https://github.com/MetaCubeX/mihomo.git upstream-mihomo
 
       - name: Build binary for ${{ matrix.arch }}
         env:
@@ -51,7 +51,13 @@ jobs:
         run: |
           cd upstream-mihomo
           go mod download
-          GOOS=linux go build -o ../mihomo/mihomo-${{ matrix.arch }}
+          VERSION=$(git describe --tags --always)
+          GOOS=linux go build -v -trimpath \
+            -ldflags "-X 'github.com/metacubex/mihomo/constant.Version=$VERSION' \
+                      -X 'github.com/metacubex/mihomo/constant.BuildTime=$(date -u)' \
+                      -w -s" \
+            -tags "with_gvisor" \
+            -o ../mihomo/mihomo-${{ matrix.arch }}        
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
