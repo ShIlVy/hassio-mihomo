@@ -42,7 +42,7 @@ jobs:
       - name: Fetch Mihomo source
         run: |
           rm -rf upstream-mihomo
-          git clone --branch Meta https://github.com/MetaCubeX/mihomo.git upstream-mihomo
+          git clone --depth 1 https://github.com/MetaCubeX/mihomo.git upstream-mihomo
 
       - name: Build binary for ${{ matrix.arch }}
         env:
